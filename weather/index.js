@@ -4,7 +4,22 @@ const app = require('express')();
 const api = require('./openWeatherApi');
 const mong = require('./mongodbConnection');
 const axios = require('axios');
+const authUrl = `http://${process.env.AUTH_URL}/`;
 
+const verifyRequest = ({ headers: { authorization } }) => {
+    try {
+        axios({
+            method:'post',
+            url: authUrl,
+            headers:{
+                authorization
+            }
+        })
+    }
+    catch (ex) {
+        return false;
+    }
+}
 
 app.get('/:city', async ({ params: { city } }, res) => {
     try {

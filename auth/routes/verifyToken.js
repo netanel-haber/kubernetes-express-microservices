@@ -1,7 +1,6 @@
 const { verifyToken } = require('../utilities/jwt');
 
 module.exports = async ({ headers: { authorization } }, res) => {
-    console.log("here");
     try {
         if (!authorization)
             return res.status(403).end();
