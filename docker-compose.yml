@@ -1,0 +1,15 @@
+version: '3'
+services: 
+    auth:
+        image: netanelhaber/auth
+        ports:
+            - "3000:3000"
+    weather:
+        image: netanelhaber/weather
+        ports:
+            - "5000:5000"
+    proxy:
+        image: netanelhaber/proxy
+        ports:
+            - "8000:8000"
+    
