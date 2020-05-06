@@ -8,7 +8,7 @@ module.exports = async ({ body: { username, password } }, res) => {
         const salt = genSalt();
         const hash = genHash(password + salt);
         await query('INSERT INTO `users` SET ?', { username, salt, hash });
-        return res.status(200).json({ token: await genToken({ username }, '15m') });
+        return res.json({ token: await genToken({ username }, '15m') });
     }
     catch (ex) {
         return res.status(500).end();

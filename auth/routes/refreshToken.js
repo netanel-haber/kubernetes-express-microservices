@@ -8,7 +8,7 @@ module.exports = async ({ headers: { authorization } }, res) => {
         const [bearer, token] = authorization.split(' ');
         return verifyToken(token)
             .then(({ payload: { username } }) => genToken(username, '15m'))
-            .then(token => res.status(200).json({ token }))
+            .then(token => res.json({ token }))
             .catch(ex => res.status(403).end())
     }
     catch (ex) {

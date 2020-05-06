@@ -5,9 +5,8 @@ module.exports = async ({ headers: { authorization } }, res) => {
         if (!authorization)
             return res.status(403).end();
         const [bearer, token] = authorization.split(' ');
-        if (!await verifyToken(token))
-            return res.status(403).end();
-        return res.status(200).end()
+        const decoded = await verifyToken(token);
+        return res.json(decoded);
     }
     catch (ex) {
         res.status(500).end();

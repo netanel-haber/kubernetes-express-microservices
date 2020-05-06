@@ -12,7 +12,7 @@ module.exports = async ({ body: { username, password } }, res) => {
         if (genHash(password + salt) !== hash)
             return res.status(403).end();
 
-        return res.status(200).json({ token: await genToken({ username }, '15m') });
+        return res.json({ token: await genToken({ username }, '15m') });
     }
     catch (ex) {
         return res.status(500).end();

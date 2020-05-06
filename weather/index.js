@@ -1,29 +1,41 @@
 require('dotenv').config();
 const app = require('express')();
+const use = require('./utilities/userWeatherSchema');
 
 const api = require('./openWeatherApi');
 const mong = require('./mongodbConnection');
 const axios = require('axios');
-const authUrl = `http://${process.env.AUTH_URL}/`;
+const authUrl = `http://${process.env.AUTH_URL}`;
 
-const verifyRequest = ({ headers: { authorization } }) => {
+
+const verifyToken = async ({ headers: { authorization } }) => {
     try {
-        axios({
-            method:'post',
-            url: authUrl,
-            headers:{
+        const { data: { payload: { username } } } = await axios({
+            method: 'post',
+            url: `${authUrl}/verify-token`,
+            headers: {
                 authorization
             }
         })
+        return username;
     }
-    catch (ex) {
-        return false;
-    }
+    catch (ex) { }
 }
 
-app.get('/:city', async ({ params: { city } }, res) => {
+
+app.get('/', (req, res) => {
+    res.send("hello weather");
+})
+
+app.get('/city/:city', async (req, res) => {
     try {
+        const { params: { city } } = req;
         const { data } = await api(city);
+        const username = await verifyToken(req);
+        if(username!==undefined){
+
+            console.log("authenticated")
+        }
         return res.json(data);
     }
     catch (ex) {

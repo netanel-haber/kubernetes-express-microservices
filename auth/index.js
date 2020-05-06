@@ -5,7 +5,7 @@ require('./utilities/prepRes')(app);
 
 
 app.get('/', (req, res) => {
-	res.send("hello world");
+	res.send("hello auth");
 })
 
 app
