@@ -5,7 +5,7 @@ app.
     use(require('body-parser').json()).
     get('/', (req, res) => res.send("hello weather")).
     get('/:city', require('./routes/getCity')).
-    post('/feelings/:city', require('./routes/postFeelings'));
+    post('/:city', require('./routes/postFeelings'));
 
 
 const port = 5000;

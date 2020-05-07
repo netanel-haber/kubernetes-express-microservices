@@ -10,8 +10,9 @@ services:
         image: weather
         ports:
             - "5000:5000"
-    # proxy:
-    #     image: netanelhaber/proxy
-    #     ports:
-    #         - "8000:8000"
+    proxy:
+        build: ./proxy
+        image: netanelhaber/proxy
+        ports:
+            - "8080:8080"
     

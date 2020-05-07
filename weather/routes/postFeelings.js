@@ -7,7 +7,9 @@ module.exports = async (req, res) => {
         const username = await extractUsernameFromToken(req);
         const { city } = req.params;
         const { feeling } = req.query;
-        if (!city || !feeling || username === undefined)
+        if (!username)
+            return res.status(401).end();
+        if (!city || !feeling)
             return res.status(400).end();
         await updateFeelings(username, city, feeling);
         res.end();
