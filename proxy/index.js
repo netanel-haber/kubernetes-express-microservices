@@ -17,6 +17,7 @@ app.use(async (req, res) => {
             return res.prepRes(404, false);
 
         const port = services[service];
+        console.log({ service, port, actualQuery });
         return axios({
             method,
             url: `http://${service}:${port}/${actualQuery.join('/')}`,
@@ -28,7 +29,7 @@ app.use(async (req, res) => {
 
     }
     catch (ex) {
-        return res.prepRes(500, false);
+        return res.prepRes(500, false, ex);
     }
 })
 

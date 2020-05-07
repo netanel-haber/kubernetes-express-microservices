@@ -49,8 +49,8 @@ async function updateFeelings(username, city, feeling) {
 }
 
 async function getSearchHistory(username) {
-    const user = getOrCreateRecord(username);
-    return user.history;
+    const user = await getOrCreateRecord(username);
+    return user.history.map(({ city, time }) => ({ city, time }));
 }
 
 module.exports = {
