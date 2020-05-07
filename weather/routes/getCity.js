@@ -1,6 +1,6 @@
 const { updateHistory } = require('../utilities/userWeatherSchema');
 const extractUsernameFromToken = require('../utilities/verifyToken');
-const weatherApi = require('../openWeatherApi');
+const weatherApi = require('../utilities/openWeatherApi');
 
 module.exports = async (req, res) => {
     try {

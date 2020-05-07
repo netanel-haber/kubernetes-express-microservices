@@ -15,4 +15,4 @@ module.exports = async (req, res) => {
     catch (ex) {
         return res.status(500).end();
     }
-})
+};
