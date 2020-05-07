@@ -9,7 +9,7 @@ app.
 
 
 
-const port = 5000;
+const port = process.env.WEATHER_PORT;
 app.listen(port, () => {
     console.log(`weather app listening on port ${port}.`);
 })

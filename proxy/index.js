@@ -4,8 +4,7 @@ app.use(require('body-parser').json());
 require('./utilities/prepRes')(app);
 
 const axios = require('axios');
-const services = { weather: 5000, auth: 3000 };
-
+const services = { weather: process.env.WEATHER_PORT, auth: process.env.AUTH_PORT };
 
 
 app.use(async (req, res) => {
@@ -35,7 +34,7 @@ app.use(async (req, res) => {
 
 
 
-const port = 8080;
+const port = process.env.PROXY_PORT || 8080;
 app.listen(port, () => {
     console.log(`proxy running on port ${port}`);
 })

@@ -15,7 +15,7 @@ app
 	.post('/refresh-token', require('./routes/refreshToken'));
 
 
-const port = 3000;
+const port = process.env.AUTH_PORT || 3000;
 app.listen(port, () => {
 	console.log(`auth listening on port ${port}`);
 });
