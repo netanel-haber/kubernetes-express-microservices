@@ -48,10 +48,15 @@ async function updateFeelings(username, city, feeling) {
     user.save();
 }
 
+async function getSearchHistory(username) {
+    const user = getOrCreateRecord(username);
+    return user.history;
+}
 
 module.exports = {
     updateHistory,
-    updateFeelings
+    updateFeelings,
+    getSearchHistory
 }
 
 
