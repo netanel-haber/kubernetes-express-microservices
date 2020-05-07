@@ -1,10 +1,10 @@
 require('dotenv').config();
 
 const app = require('express')();
+app.use(require('body-parser').json());
 const { updateFeelings, updateHistory } = require('./utilities/userWeatherSchema');
 const extractUsernameFromToken = require('./utilities/verifyToken')
 const api = require('./openWeatherApi');
-const mong = require('./mongodbConnection');
 
 
 
@@ -13,14 +13,14 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/city/:city', async (req, res) => {
+app.get('/:city', async (req, res) => {
     try {
         const { params: { city } } = req;
         const { data } = await api(city);
         const username = await extractUsernameFromToken(req);
-        if (username !== undefined) {
+        if (username !== undefined)
             await updateHistory(username, city);
-        }
+
         return res.json(data);
     }
     catch (ex) {
@@ -28,12 +28,18 @@ app.get('/city/:city', async (req, res) => {
     }
 })
 
-app.get('/feelings/', async (req, res) => {
+app.post('/feelings/:city', async (req, res) => {
     try {
-        const {} = req.body;
+        const username = await extractUsernameFromToken(req);
+        const { city } = req.params;
+        const { feeling } = req.body;
+        if (!city || !feeling || username === undefined) 
+            return res.status(400).end();
+        await updateFeelings(username, city, feeling);
+        res.end();
     }
     catch (ex) {
-
+        return res.status(500).end();
     }
 })
 

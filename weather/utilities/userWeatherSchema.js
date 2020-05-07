@@ -7,9 +7,13 @@ const feelingsSchema = new Schema({
     time: Date,
     feeling: String
 });
+const historySchema = new Schema({
+    city: String,
+    time: Date
+})
 const userWeatherSchema = new Schema({
     username: String,
-    history: [String],
+    history: [historySchema],
     feelings: [feelingsSchema]
 });
 
@@ -34,13 +38,13 @@ async function getOrCreateRecord(username) {
 
 async function updateHistory(username, searchItem) {
     const user = await getOrCreateRecord(username);
-    user.history = [...user.history, searchItem];
+    user.history = [...user.history, { city: searchItem, time: Date.now() }];
     user.save();
 }
 
-async function updateFeelings(username, city, time, feeling) {
+async function updateFeelings(username, city, feeling) {
     const user = await getOrCreateRecord(username);
-    user.feelings = [...user.feelings, { city, time, feeling }]
+    user.feelings = [...user.feelings, { city, time: Date.now(), feeling }]
     user.save();
 }
 
