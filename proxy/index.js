@@ -10,8 +10,11 @@ const services = { weather: 3000, auth: 5000 };
 app.use('/:service/:query', (req, res) => {
     try {
         const { service, query } = req.params;
+        
         if (!Object.keys(services).includes(service))
-            return res.prepRes(403, false);
+            return res.prepRes(401, false);
+        
+        
     }
     catch (ex) {
         return res.prepRes(500, false);
