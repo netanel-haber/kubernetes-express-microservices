@@ -5,13 +5,14 @@ const weatherApi = require('../utilities/openWeatherApi');
 module.exports = async (req, res) => {
     try {
         const { params: { city } } = req;
-        const { data } = await weatherApi(city);
+        const weather = await weatherApi(city);
         const username = await extractUsernameFromToken(req);
         if (username !== undefined)
             await updateHistory(username, city);
-        return res.json(data);
+        return res.json(weather);
     }
     catch (ex) {
+        console.log({ ex });
         return res.status(500).end();
     }
 }
