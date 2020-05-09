@@ -5,21 +5,22 @@ require('./utilities/prepRes')(app);
 
 const axios = require('axios');
 const services = { weather: process.env.WEATHER_PORT, auth: process.env.AUTH_PORT };
+const url = require('url');
 
-
-app.use(async (req, res) => {
+app.use('/:service/:actualQuery', async (req, res) => {
     try {
-        const [, service, ...actualQuery] = req.originalUrl.split('/')
+        const { service, actualQuery } = req.params;
+        const qs = url.parse(req.url).query;
         const { method, body } = req;
         const { authorization } = req.headers;
         if (!Object.keys(services).includes(service))
             return res.prepRes(404, false);
-
         const port = services[service];
+        console.log(`http://${service}:${port}/${actualQuery}${qs ? '?' + qs : ''}`);
         console.log({ service, port, actualQuery });
         return axios({
             method,
-            url: `http://${service}:${port}/${actualQuery.join('/')}`,
+            url: `http://${service}:${port}/${actualQuery}${qs ? '?' + qs : ''}`,
             headers: { ...(authorization && { authorization }) },
             data: body
         })
@@ -28,6 +29,7 @@ app.use(async (req, res) => {
 
     }
     catch (ex) {
+        console.log({ ex });
         return res.prepRes(500, false, ex);
     }
 })
