@@ -1,0 +1,5 @@
+PS: 
+
+minikube start
+minikube docker-env | Invoke-Expression
+kubectl apply -f .
